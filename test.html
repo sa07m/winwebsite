@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        /* ===== Hover FX Kit (gold-on-dark) ===== */
+        .fx{
+        /* defaults you can tweak per-element */
+        --fx-scale: 1.04;
+        --fx-lift: 6px;
+        --fx-glow-color: color-mix(in oklab, var(--brand), white 6%);
+        --fx-glow-opacity: .28;
+        --fx-glow-blur: 22px;
+        --fx-duration: .25s;
+        --fx-ease: cubic-bezier(.2,.7,.2,1);
+
+        position: relative;
+        z-index: 0;
+        isolation: isolate;                 /* keeps glow behind the element only */
+        transition: transform var(--fx-duration) var(--fx-ease),
+                    box-shadow var(--fx-duration) var(--fx-ease),
+                    filter var(--fx-duration) var(--fx-ease);
+        }
+
+        /* Zoom on hover/focus */
+        @media (hover:hover) {
+        .fx-zoom:hover, .fx-zoom:focus-visible { transform: scale(var(--fx-scale)); }
+        }
+        .fx-zoom:focus-visible { transform: scale(var(--fx-scale)); }
+
+        /* Lift (subtle raise) */
+        @media (hover:hover) {
+        .fx-lift:hover, .fx-lift:focus-visible { transform: translateY(calc(-1 * var(--fx-lift))) scale(var(--fx-scale)); }
+        }
+        .fx-lift:focus-visible { transform: translateY(calc(-1 * var(--fx-lift))) scale(var(--fx-scale)); }
+
+        /* Back glow halo */
+        .fx-glow::before{
+        content:"";
+        position:absolute; inset:-10%;
+        border-radius: inherit;
+        background: radial-gradient(60% 60% at 50% 40%, var(--fx-glow-color) 0%, transparent 60%);
+        opacity: 0; transform: scale(.9);
+        filter: blur(var(--fx-glow-blur));
+        transition: opacity var(--fx-duration) var(--fx-ease), transform var(--fx-duration) var(--fx-ease);
+        z-index:-1; pointer-events:none;
+        }
+        @media (hover:hover) {
+        .fx-glow:hover::before, .fx-glow:focus-visible::before { opacity: var(--fx-glow-opacity); transform: scale(1); }
+        }
+        .fx-glow:focus-visible::before { opacity: var(--fx-glow-opacity); transform: scale(1); }
+
+        /* Shadow deepen */
+        .fx-shadow{ box-shadow: 0 8px 20px rgba(0,0,0,.30) }
+        @media (hover:hover) {
+        .fx-shadow:hover, .fx-shadow:focus-visible { box-shadow: 0 16px 36px rgba(0,0,0,.42) }
+        }
+        .fx-shadow:focus-visible { box-shadow: 0 16px 36px rgba(0,0,0,.42) }
+
+        /* Optional: tilt that reacts to mouse (CSS-only version) */
+        @media (hover:hover) {
+        .fx-tilt:hover, .fx-tilt:focus-visible { transform: perspective(800px) rotateX(-3deg) rotateY(3deg) scale(var(--fx-scale)); }
+        }
+
+        /* Respect users who prefer reduced motion */
+        @media (prefers-reduced-motion: reduce){
+        .fx, .fx::before { transition: none !important; transform: none !important; }
+        }
+
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p class="fx-glow">
+        this is try 1
+    </p>
+    <p>
+        this is try 2
+    </p>
+    <a class="cta fx fx-zoom fx-glow fx-shadow">Get a proposal</a>
+    <!-- Buttons -->
+<a class="card fx fx-lift fx-glow fx-shadow">Get a proposal</a>
+<a class="ghost fx fx-lift fx-glow">See our work</a>
+
+<!-- Cards -->
+<div class="card fx fx-lift fx-glow fx-shadow" style="--fx-scale:1.03; --fx-glow-opacity:.22">
+  <!-- card content -->
+</div>
+
+<!-- Images / logos -->
+<img src="winnovate-logo.png" alt="Winnovate" class="fx fx-zoom fx-glow" style="border-radius:10px">
+
+<!-- Nav links -->
+<a class="fx fx-zoom" style="--fx-scale:1.06">Services</a>
+
+</body>
+</html>

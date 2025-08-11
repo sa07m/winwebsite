@@ -1,0 +1,494 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Winnovate — AI & Data Solutions</title>
+  <meta name="description" content="Driving change through AI & Data solutions. Strategy, analytics, automation." />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  <style>
+    :root{
+      /* Gold-on-dark palette */
+      --bg:#0b0e13;
+      --panel:#0e1218;
+      --panel-2:#0b0f14;
+      --text:#f4f5f7;
+      --muted:#c3c7d1;
+      --brand:#d7b86a;      /* soft gold */
+      --brand-2:#b8872b;    /* deep gold */
+      --accent:#f2e7bf;     /* light gold highlight */
+      --border:#1e2330;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 14px;
+      --radius-sm:10px;
+      --maxw: 1200px;
+    }
+    * { box-sizing: border-box }
+    html, body { height: 100% }
+    body{
+      margin:0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans";
+      color:var(--text);
+      /* subtle gold vignettes */
+      background:
+        radial-gradient(900px 420px at 70% -10%, rgba(215,184,106,.08) 0%, transparent 60%),
+        radial-gradient(700px 260px at 0% 100%, rgba(184,135,43,.06) 0%, transparent 65%),
+        var(--bg);
+      line-height:1.5;
+    }
+    a { color: var(--brand); text-decoration: none }
+    a:hover{ text-decoration: underline }
+    .container{ width:100%; max-width: var(--maxw); margin-inline:auto; padding: 0 24px }
+
+    header{
+      position: sticky; top:0; z-index: 50; backdrop-filter: saturate(130%) blur(10px);
+      background: color-mix(in oklab, var(--bg) 85%, transparent);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav{ display:flex; align-items:center; justify-content:space-between; padding:14px 0 }
+    .brand{ display:flex; align-items:center; gap:12px; font-weight:700; letter-spacing:.2px; }
+    .logo{ width:100px; height:54px; border-radius:10px; object-fit:contain; background:none; box-shadow:none; border:0 }
+
+    .navlinks{ display:flex; gap:22px; align-items:center }
+    .navlinks a{ position:relative; color: var(--text); opacity:.9; text-decoration:none }
+    .navlinks a::after{
+      content:""; position:absolute; left:0; right:0; bottom:-6px; height:2px; border-radius:2px;
+      background: linear-gradient(90deg, var(--brand-2), var(--brand));
+      transform: scaleX(0); transform-origin: left; transition: transform .25s cubic-bezier(.2,.7,.2,1);
+      opacity:.85;
+    }
+    .navlinks a:hover::after, .navlinks a:focus-visible::after{ transform: scaleX(1) }
+
+    .cta{
+      display:inline-flex; align-items:center; gap:10px; padding:10px 16px; border-radius:999px;
+      background: linear-gradient(135deg, var(--brand-2) 0%, var(--brand) 40%, var(--accent) 60%, var(--brand-2) 100%);
+      color:#081019; font-weight:600; border:1px solid color-mix(in oklab, var(--brand-2), black 35%);
+      box-shadow: var(--shadow); position:relative; overflow:hidden;
+      transition: filter .2s ease;
+    }
+    .cta:hover{ transform: translateY(-1px); filter: brightness(1.06) }
+    /* sheen on hover */
+    .cta::after{
+      content:""; position:absolute; top:-120%; left:-20%; width:40%; height:300%;
+      background: linear-gradient( to right, transparent, rgba(255,255,255,.35), transparent);
+      transform: rotate(25deg) translateX(-120%); opacity:0; pointer-events:none;
+    }
+    .cta:hover::after{ animation: shine 1.2s cubic-bezier(.2,.7,.2,1); opacity:1 }
+    @keyframes shine{ to { transform: rotate(25deg) translateX(220%) } }
+
+    /* Hero */
+    .hero{ padding: 72px 0 32px }
+    .hero-grid{ display:grid; grid-template-columns: 1.2fr 1fr; gap:40px; align-items:center }
+    h1{ font-size: clamp(32px, 4vw, 56px); line-height:1.05; margin:0 0 14px }
+    .eyebrow{ display:inline-flex; gap:8px; align-items:center; padding:6px 10px; border-radius:999px; background: #0f1730; border:1px solid var(--border); color:var(--muted); font-size:12px; letter-spacing:.3px }
+    .lead{ font-size: clamp(16px, 2.1vw, 20px); color:var(--muted); max-width: 60ch }
+    .hero-cta{ display:flex; gap:12px; flex-wrap:wrap; margin-top:22px }
+    .ghost{
+      display:inline-flex; align-items:center; gap:10px; padding:10px 16px; border-radius:999px;
+      border:1px solid color-mix(in oklab, var(--brand-2), black 55%); background: #0d1429; color:var(--brand)
+    }
+
+    .card{
+      background: linear-gradient(180deg, var(--panel), var(--panel-2));
+      border:1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow)
+    }
+    .viz{
+      aspect-ratio: 16/11; border-radius: var(--radius); position:relative; overflow:hidden;
+      background:
+        radial-gradient(260px 160px at 18% 20%, rgba(215,184,106,.12), transparent 70%),
+        radial-gradient(260px 160px at 90% 10%, rgba(184,135,43,.10), transparent 70%),
+        linear-gradient(160deg, #0a0f1c, #0a1222 50%, #0c1327);
+      border:1px solid var(--border);
+    }
+    /* Floating analytic bars */
+    .bar{ position:absolute; left: clamp(14px, 3vw, 24px); right: clamp(14px, 3vw, 24px); height: 12px; border-radius: 999px; background: #0f1a34; border:1px solid var(--border) }
+    .bar::after{ content:""; display:block; height:100%; width: var(--w,55%); border-radius: 999px;
+      background: linear-gradient(90deg, var(--brand-2), var(--brand), var(--accent));
+      box-shadow: 0 6px 20px rgba(212,175,55,.25)
+    }
+    .bar.b2{ top: 22%; --w:72% }
+    .bar.b1{ top: 42%; --w:38% }
+    .bar.b3{ top: 62%; --w:86% }
+    .bar.b4{ top: 82%; --w:58% }
+
+    /* Sections */
+    section{ padding: 64px 0 }
+    .kpis{ display:grid; grid-template-columns: repeat(4,1fr); gap:18px }
+    .kpi{ padding:16px; border-radius: var(--radius-sm); border:1px solid var(--border); background:#0d152a; text-align:center }
+    .kpi .num{ font-size: clamp(24px, 3.2vw, 36px); font-weight:700; color:var(--brand) }
+    .grid-3{ display:grid; gap:18px; grid-template-columns: repeat(3,1fr) }
+    .grid-2{ display:grid; gap:18px; grid-template-columns: repeat(2,1fr) }
+    .item{ padding:18px; border-radius: var(--radius); border:1px solid var(--border); background:#0d152a }
+    .item h3{ margin:.2rem 0 .4rem }
+    .muted{ color: var(--muted) }
+    .pill{ display:inline-block; font-size:12px; padding:6px 10px; border:1px solid color-mix(in oklab, var(--brand-2), black 60%); border-radius:999px; background:#0f1730; color:var(--brand) }
+    .list{ display:flex; flex-direction:column; gap:10px; margin:0; padding:0; list-style:none }
+    .list li{ display:flex; align-items:flex-start; gap:10px }
+    .check{ width:18px; height:18px; margin-top:3px; border-radius:6px; background:linear-gradient(135deg,var(--brand),var(--brand-2)); display:inline-grid; place-items:center; color:#081019; font-weight:700; font-size:13px }
+
+    /* Testimonials */
+    .testi{ display:flex; gap:18px; overflow:auto; scroll-snap-type: x mandatory; padding-bottom: 6px }
+    .tcard{ min-width: 320px; scroll-snap-align: start; padding:18px; border:1px solid var(--border); border-radius: var(--radius); background:#0f1730 }
+
+    /* Footer */
+    footer{ border-top:1px solid var(--border); padding: 28px 0; color: var(--muted) }
+
+    /* Responsive */
+    @media (max-width: 960px){
+      .hero-grid{ grid-template-columns: 1fr; }
+      .kpis{ grid-template-columns: 1fr 1fr }
+      .grid-3{ grid-template-columns: 1fr 1fr }
+    }
+    @media (max-width: 640px){
+      .navlinks{ display:none }
+      .kpis, .grid-3, .grid-2{ grid-template-columns: 1fr }
+    }
+
+    /* Tiny fade/slide on view */
+    .reveal{ opacity:0; transform: translateY(10px); transition: .5s ease }
+    .reveal.in{ opacity:1; transform:none }
+
+    /* ===== Hover FX Kit (gold-on-dark) ===== */
+    .fx{
+      --fx-scale: 1.04;
+      --fx-lift: 6px;
+      --fx-glow-color: color-mix(in oklab, var(--brand), white 6%);
+      --fx-glow-opacity: .28;
+      --fx-glow-blur: 22px;
+      --fx-duration: .25s;
+      --fx-ease: cubic-bezier(.2,.7,.2,1);
+      position: relative; z-index: 0; isolation: isolate;
+      transition: transform var(--fx-duration) var(--fx-ease),
+                  box-shadow var(--fx-duration) var(--fx-ease),
+                  filter var(--fx-duration) var(--fx-ease);
+    }
+    @media (hover:hover) {
+      .fx-zoom:hover, .fx-zoom:focus-visible { transform: scale(var(--fx-scale)); }
+      .fx-lift:hover, .fx-lift:focus-visible { transform: translateY(calc(-1 * var(--fx-lift))) scale(var(--fx-scale)); }
+      .fx-glow:hover::before, .fx-glow:focus-visible::before { opacity: var(--fx-glow-opacity); transform: scale(1); }
+      .fx-shadow:hover, .fx-shadow:focus-visible { box-shadow: 0 16px 36px rgba(0,0,0,.42) }
+      .fx-tilt:hover, .fx-tilt:focus-visible { transform: perspective(800px) rotateX(-3deg) rotateY(3deg) scale(var(--fx-scale)); }
+    }
+    .fx-zoom:focus-visible { transform: scale(var(--fx-scale)); }
+    .fx-lift:focus-visible { transform: translateY(calc(-1 * var(--fx-lift))) scale(var(--fx-scale)); }
+    .fx-glow::before{
+      content:""; position:absolute; inset:-10%; border-radius: inherit;
+      background: radial-gradient(60% 60% at 50% 40%, var(--fx-glow-color) 0%, transparent 60%);
+      opacity: 0; transform: scale(.9); filter: blur(var(--fx-glow-blur));
+      transition: opacity var(--fx-duration) var(--fx-ease), transform var(--fx-duration) var(--fx-ease);
+      z-index:-1; pointer-events:none;
+    }
+    .fx-shadow{ box-shadow: 0 8px 20px rgba(0,0,0,.30) }
+
+    /* === Animated Background Canvas === */
+    #bgfx{
+      position: fixed;
+      inset: 0;
+      z-index: -1;          /* behind everything */
+      pointer-events: none; /* clicks pass through */
+    }
+    /* Optional subtle top darkening so content pops */
+    body::before{
+      content:"";
+      position: fixed; inset:0;
+      background: linear-gradient(to bottom, rgba(0,0,0,.25), transparent 30%);
+      z-index:-1; pointer-events:none;
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .fx, .fx::before { transition: none !important; transform: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Animated background -->
+  <canvas id="bgfx" aria-hidden="true"></canvas>
+
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <img src="logo1.png" alt="Winnovate logo" class="logo fx fx-zoom fx-glow" style="--fx-glow-opacity:.18; --fx-glow-blur:18px">
+        <span></span>
+      </div>
+      <nav class="navlinks" aria-label="Primary">
+        <a class="fx fx-zoom" href="#services">Services</a>
+        <a class="fx fx-zoom" href="#work">Case Studies</a>
+        <a class="fx fx-zoom" href="#about">About</a>
+        <a href="#contact" class="cta fx fx-zoom fx-glow fx-shadow">Book a call</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero container">
+      <span class="eyebrow">▲ Data to Decisions · Faster</span>
+      <div class="hero-grid">
+        <div>
+          <h1>Driving changes through AI & Data solutions</h1>
+          <p class="lead">We help teams design data strategies, automate workflows, and build dashboards that drive measurable growth.</p>
+          <div class="hero-cta">
+            <a class="cta fx fx-zoom fx-glow fx-shadow" href="#contact">Get a proposal</a>
+            <a class="ghost fx fx-lift fx-glow" href="#work">See our work</a>
+          </div>
+          <div style="margin-top:22px" class="kpis">
+            <div class="kpi fx fx-lift fx-shadow fx-glow" style="--fx-glow-opacity:.16"><div class="num">120+</div><div class="muted">Projects shipped</div></div>
+            <div class="kpi fx fx-lift fx-shadow fx-glow" style="--fx-glow-opacity:.16"><div class="num">4.9★</div><div class="muted">Client rating</div></div>
+            <div class="kpi fx fx-lift fx-shadow fx-glow" style="--fx-glow-opacity:.16"><div class="num">8x</div><div class="muted">Avg ROI</div></div>
+            <div class="kpi fx fx-lift fx-shadow fx-glow" style="--fx-glow-opacity:.16"><div class="num">14 days</div><div class="muted">To first insights</div></div>
+          </div>
+        </div>
+
+        <div class="card viz fx fx-lift fx-glow fx-shadow fx-tilt" style="--fx-glow-opacity:.12" aria-hidden="true">
+          <div class="bar b2"></div>
+          <div class="bar b1"></div>
+          <div class="bar b3"></div>
+          <div class="bar b4"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="services" class="container reveal">
+      <div style="display:flex; justify-content:space-between; align-items:end; gap:18px; flex-wrap:wrap">
+        <h2 style="margin:0">Services</h2>
+        <span class="pill">Strategy · Analytics · Automation</span>
+      </div>
+      <div class="grid-3" style="margin-top:18px">
+        <div class="item fx fx-lift fx-glow fx-shadow" style="--fx-glow-opacity:.18">
+          <h3>Data Strategy</h3>
+          <p class="muted">Roadmaps, governance, and metrics that align with your goals.</p>
+          <ul class="list">
+            <li><span class="check">✓</span><span>North-star KPIs & measurement plans</span></li>
+            <li><span class="check">✓</span><span>Tooling & stack recommendations</span></li>
+            <li><span class="check">✓</span><span>Enablement & training</span></li>
+          </ul>
+        </div>
+        <div class="item fx fx-lift fx-glow fx-shadow" style="--fx-glow-opacity:.18">
+          <h3>Dashboards & BI</h3>
+          <p class="muted">Executive dashboards and self-serve analytics that teams actually use.</p>
+          <ul class="list">
+            <li><span class="check">✓</span><span>Warehouse modeling</span></li>
+            <li><span class="check">✓</span><span>Visualization & UX</span></li>
+            <li><span class="check">✓</span><span>Alerts & reporting</span></li>
+          </ul>
+        </div>
+        <div class="item fx fx-lift fx-glow fx-shadow" style="--fx-glow-opacity:.18">
+          <h3>Automation</h3>
+          <p class="muted">Eliminate repetitive tasks with integrations and lightweight apps.</p>
+          <ul class="list">
+            <li><span class="check">✓</span><span>ETL/ELT pipelines</span></li>
+            <li><span class="check">✓</span><span>CRM & marketing ops</span></li>
+            <li><span class="check">✓</span><span>Ops dashboards</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="work" class="container reveal">
+      <h2>Selected work</h2>
+      <div class="grid-2" style="margin-top:18px">
+        <article class="item fx fx-lift fx-glow fx-shadow" style="--fx-glow-opacity:.16">
+          <h3>Revenue Visibility, Faster Close</h3>
+          <p class="muted">Unified CRM + billing data for a SaaS firm; reduced month-end close by 3 days.</p>
+          <span class="pill">Snowflake · dbt · Power BI</span>
+        </article>
+        <article class="item fx fx-lift fx-glow fx-shadow" style="--fx-glow-opacity:.16">
+          <h3>Marketing Attribution Overhaul</h3>
+          <p class="muted">Multi-touch models and campaign health dashboards; 22% CAC reduction.</p>
+          <span class="pill">GA4 · BigQuery · Looker</span>
+        </article>
+      </div>
+    </section>
+
+    <section id="about" class="container reveal">
+      <div class="grid-2">
+        <div class="item fx fx-lift fx-glow fx-shadow" style="--fx-glow-opacity:.16">
+          <h3>Why us</h3>
+          <ul class="list">
+            <li><span class="check">✓</span><span>Operators first: practical over perfect</span></li>
+            <li><span class="check">✓</span><span>Design matters: dashboards people enjoy</span></li>
+            <li><span class="check">✓</span><span>Measurable outcomes in weeks</span></li>
+          </ul>
+        </div>
+        <div class="item fx fx-lift fx-glow fx-shadow" style="--fx-glow-opacity:.16">
+          <h3>Approach</h3>
+          <p class="muted">We start with decisions you need to make, then work backward into modeling, automation, and UX.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="container reveal">
+      <h2>What clients say</h2>
+      <div class="testi" aria-label="Testimonials">
+        <div class="tcard fx fx-lift fx-shadow fx-glow" style="--fx-glow-opacity:.14">“The first dashboard launch changed our weekly exec meeting.” — COO, Fintech</div>
+        <div class="tcard fx fx-lift fx-shadow fx-glow" style="--fx-glow-opacity:.14">“They ship, and they teach your team to ship.” — VP Analytics, SaaS</div>
+        <div class="tcard fx fx-lift fx-shadow fx-glow" style="--fx-glow-opacity:.14">“Cleanest visualizations we’ve seen. Adoption finally stuck.” — Marketing Lead</div>
+      </div>
+    </section>
+
+    <section id="contact" class="container reveal">
+      <div class="card fx fx-lift fx-glow fx-shadow" style="--fx-glow-opacity:.12; padding:22px">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:18px; flex-wrap:wrap">
+          <div>
+            <h2 style="margin:.2rem 0">Ready to talk?</h2>
+            <p class="muted" style="margin:0">Tell us your goals. We’ll send a 2-page plan within 48 hours.</p>
+          </div>
+          <a class="cta fx fx-zoom fx-glow fx-shadow" href="mailto:hello@example.com">hello@example.com</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container" style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px">
+      <div style="display:flex; align-items:center; gap:10px">
+        <img src="logo1.png" alt="" class="logo" style="width:24px; height:24px">
+        <span>© <span id="year"></span> Winnovate</span>
+      </div>
+      <div class="muted">Privacy · Terms</div>
+    </div>
+  </footer>
+
+  <script>
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Simple reveal-on-scroll
+    const onScroll = () => {
+      document.querySelectorAll('.reveal').forEach(el=>{
+        const r = el.getBoundingClientRect();
+        if (r.top < window.innerHeight - 80) el.classList.add('in');
+      });
+    };
+    document.addEventListener('scroll', onScroll, { passive:true });
+    window.addEventListener('load', onScroll);
+
+    // Optional: cursor-reactive tilt for elements with .fx-tilt
+    document.querySelectorAll('.fx-tilt').forEach(el=>{
+      const strength = 6;  // degrees
+      const scale = 1.04;
+      function reset(){ el.style.transform = ''; }
+      el.addEventListener('mousemove', e=>{
+        const r = el.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width - .5;
+        const y = (e.clientY - r.top) / r.height - .5;
+        //el.style.transform = `perspective(900px) rotateX(${(-y*strength)}deg) rotateY(${x*strength)}deg) scale(${scale})`;
+      });
+      el.addEventListener('mouseleave', reset);
+      el.addEventListener('blur', reset, true);
+    });
+
+    // === Animated Background: TWINKLE mode (auto-reads your --brand colors) ===
+    (() => {
+      const FX = {
+        mode: 'twinkle',          // 'twinkle' or 'fall'
+        density: 0.00012,         // particles per px^2
+        maxSize: 2.2,             // px
+        minSize: 0.6,             // px
+        maxSpeed: 0.25,           // px/frame for twinkle
+        fallSpeedY: [0.4, 1.2],   // for 'fall' mode
+        fallDriftX: [-0.2, 0.2],
+        twinkleSpeed: [0.003, 0.01], // radians/frame
+      };
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const canvas = document.getElementById('bgfx');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d', { alpha: true });
+
+      let w = 0, h = 0, dpr = Math.max(1, window.devicePixelRatio || 1);
+      let stars = [];
+      let running = !prefersReduced;
+
+      function cssVar(name, fallback='#d7b86a'){
+        const v = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+        return v || fallback;
+      }
+      const GOLD = cssVar('--brand', '#d7b86a');
+      const GOLD2 = cssVar('--brand-2', '#b8872b');
+
+      function rand(a,b){ return a + Math.random()*(b-a); }
+
+      function resize(){
+        w = window.innerWidth; h = window.innerHeight;
+        canvas.width  = Math.floor(w * dpr);
+        canvas.height = Math.floor(h * dpr);
+        ctx.setTransform(dpr,0,0,dpr,0,0);
+        const target = Math.max(60, Math.min(600, Math.floor(w*h*FX.density)));
+        stars = Array.from({length: target}, () => makeStar());
+        draw(true);
+      }
+
+      function makeStar(){
+        const size = rand(FX.minSize, FX.maxSize);
+        const base = Math.random();
+        const s = {
+          x: Math.random()*w,
+          y: Math.random()*h,
+          r: size,
+          a: rand(0.35, 0.95),
+          vx: FX.mode==='fall' ? rand(...FX.fallDriftX) : rand(-FX.maxSpeed, FX.maxSpeed),
+          vy: FX.mode==='fall' ? rand(...FX.fallSpeedY)  : rand(-FX.maxSpeed, FX.maxSpeed),
+          tw: rand(...FX.twinkleSpeed),
+          tp: Math.random()*Math.PI*2,
+          hueMix: base
+        };
+        if (FX.mode!=='fall' && Math.abs(s.vx) + Math.abs(s.vy) < 0.04){
+          s.vx = 0.05 * (Math.random()<0.5?-1:1);
+        }
+        return s;
+      }
+
+      function draw(singleFrame=false){
+        ctx.clearRect(0,0,w,h);
+        stars.forEach(st=>{
+          if (!singleFrame) {
+            st.x += st.vx;
+            st.y += st.vy;
+            st.tp += st.tw;
+            if (st.x < -10) st.x = w+10;
+            if (st.x > w+10) st.x = -10;
+            if (st.y < -10) st.y = h+10;
+            if (st.y > h+10) st.y = -10;
+          }
+          const twinkle = FX.mode==='twinkle' ? (0.6 + 0.4*Math.sin(st.tp)) : 1;
+          const alpha = Math.max(0, Math.min(1, st.a * twinkle));
+          ctx.globalAlpha = alpha;
+          ctx.shadowColor = GOLD;
+          ctx.shadowBlur = st.r * 4;
+          ctx.fillStyle = Math.random() < st.hueMix ? GOLD : GOLD2;
+          ctx.beginPath();
+          ctx.arc(st.x, st.y, st.r, 0, Math.PI*2);
+          ctx.fill();
+          ctx.shadowBlur = 0;
+        });
+        ctx.globalAlpha = 1;
+      }
+
+      let rafId = 0;
+      function loop(){
+        if (!running) return;
+        draw();
+        rafId = requestAnimationFrame(loop);
+      }
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden){ running = false; cancelAnimationFrame(rafId); }
+        else { running = !prefersReduced; if (running) loop(); }
+      });
+
+      window.addEventListener('resize', () => { dpr = Math.max(1, window.devicePixelRatio || 1); resize(); }, { passive:true });
+
+      resize();
+      if (running) loop();
+
+      // Quick API to switch modes from console, e.g., BGFX.setMode('fall')
+      window.BGFX = {
+        setMode(m){
+          FX.mode = (m==='fall' ? 'fall' : 'twinkle');
+          resize();
+        }
+      };
+    })();
+  </script>
+</body>
+</html>
