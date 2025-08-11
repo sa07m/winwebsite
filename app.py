@@ -6,6 +6,16 @@ import streamlit.components.v1 as components
 
 st.set_page_config(page_title="Winnovate Preview", layout="wide")
 
+st.markdown("""
+<style>
+/* Make Streamlit content span the full width */
+.main .block-container{max-width: 100% !important; padding: 0 !important;}
+/* Make the iframe from components.html occupy full width */
+[data-testid="stIFrame"] iframe { width: 100% !important; }
+html, body, .stApp { background: #0b0e13; } /* optional: match your site bg */
+</style>
+""", unsafe_allow_html=True)
+
 root = Path(__file__).parent
 html_path = root / "index.html"
 html = html_path.read_text(encoding="utf-8")
